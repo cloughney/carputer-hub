@@ -1,16 +1,25 @@
 {
-  "name": "carputer-hub",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "socket.io": "^2.0.3",
-    "socket.io-client": "^2.0.3",
-    "ws": "^3.0.0"
-  }
+	"name": "carputer-hub",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"build": "tsc",
+		"start": "tsc && node dist/index.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"koa": "^2.3.0",
+		"koa-router": "^7.2.1",
+		"koa-websocket": "^4.0.0"
+	},
+	"devDependencies": {
+		"@types/koa": "^2.0.39",
+		"@types/koa-router": "^7.0.22",
+		"@types/koa-websocket": "^2.1.0",
+		"@types/node": "^8.0.19",
+		"typescript": "^2.4.2"
+	}
 }
