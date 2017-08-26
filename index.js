@@ -1,6 +1,12 @@
 const WebSocket = require('ws');
-const { connectionManager } = require('./lib/websockets');
+const config = require('./config');
+const { CommunicationHub } = require('./lib/hub');
+//const { ModuleRepository } = require('./lib/modules');
 
-connectionManager.setServer(new WebSocket.Server({ port: 9000 }));
+const hub = new CommunicationHub({});
+//const modules = new ModuleRepository(config.modules, hub);
 
-require('./lib/modules/mopidy')();
+const modules = config.modules.register
+	.map(registerModule => registerModule({ getClient: hub.getClient.bind(hub) }));
+
+hub.listen();
