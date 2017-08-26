@@ -1,7 +1,5 @@
 module.exports = {
 	modules: {
-		register: [
-			require('./lib/modules/mopidy')
-		]
+		'mopidy': require('./lib/modules/mopidy')
 	}
 }

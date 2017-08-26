@@ -6,7 +6,13 @@ const { CommunicationHub } = require('./lib/hub');
 const hub = new CommunicationHub({});
 //const modules = new ModuleRepository(config.modules, hub);
 
-const modules = config.modules.register
-	.map(registerModule => registerModule({ getClient: hub.getClient.bind(hub) }));
+const modules = [];
+for (let moduleKey in config.modules) {
+	const context = {
+		client: hub.getClient(`module.${moduleKey}`)
+	};
+
+	config.modules[moduleKey](context);
+}
 
 hub.listen();
