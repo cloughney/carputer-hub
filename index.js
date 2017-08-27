@@ -3,7 +3,7 @@ const config = require('./config');
 const { CommunicationHub } = require('./lib/hub');
 //const { ModuleRepository } = require('./lib/modules');
 
-const hub = new CommunicationHub({});
+const hub = new CommunicationHub(config);
 //const modules = new ModuleRepository(config.modules, hub);
 
 const modules = [];
@@ -12,7 +12,7 @@ for (let moduleKey in config.modules) {
 		client: hub.getClient(`module.${moduleKey}`)
 	};
 
-	config.modules[moduleKey](context);
+	modules.push(config.modules[moduleKey](context));
 }
 
 hub.listen();
