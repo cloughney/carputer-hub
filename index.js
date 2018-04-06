@@ -7,12 +7,25 @@ const hub = new CommunicationHub(config);
 //const modules = new ModuleRepository(config.modules, hub);
 
 const modules = [];
-for (let moduleKey in config.modules) {
-	const context = {
-		client: hub.getClient(`module.${moduleKey}`)
-	};
+Object.getOwnPropertyNames(config.modules).forEach(moduleKey => {
+	const moduleConfig = config.modules[moduleKey];
+	const moduleUid = `module.${moduleKey}`;
 
-	modules.push(config.modules[moduleKey](context));
-}
+	let client = undefined;
+
+	switch (moduleConfig.type.toLowerCase()) {
+		case 'client':
+			client = hub.createClient(moduleUid);
+			break;
+		case 'webhook':
+			client = hub.createWebHook(moduleUid, moduleConfig.path);
+			break;
+		default:
+			throw new Error(`Invalid module type '${moduleConfig.type}' for module '${moduleKey}'.`);
+	}
+
+	const moduleInstance = moduleConfig.module({ client, config });
+	modules.push(moduleInstance);
+});
 
 hub.listen();
