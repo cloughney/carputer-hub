@@ -3,7 +3,7 @@ module.exports = {
 		port: 9000
 	},
 	modules: {
-		//'mopidy': require('./lib/modules/mopidy'),
+		//'mopidy': { type: 'client', module: require('./lib/modules/mopidy') },
 		'authentication': {
 			type: 'webhook',
 			path: '/test',
