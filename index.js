@@ -11,19 +11,8 @@ Object.getOwnPropertyNames(config.modules).forEach(moduleKey => {
 	const moduleConfig = config.modules[moduleKey];
 	const moduleUid = `module.${moduleKey}`;
 
-	let client = undefined;
-
-	switch (moduleConfig.type.toLowerCase()) {
-		case 'client':
-			client = hub.createClient(moduleUid);
-			break;
-		case 'webhook':
-			client = hub.createWebHook(moduleUid, moduleConfig.path);
-			break;
-		default:
-			throw new Error(`Invalid module type '${moduleConfig.type}' for module '${moduleKey}'.`);
-	}
-
+	const client = hub.createClient(moduleUid);
+	
 	const moduleInstance = moduleConfig.module({ client, config });
 	modules.push(moduleInstance);
 });
