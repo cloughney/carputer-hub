@@ -8,13 +8,13 @@ const hub = new CommunicationHub(config);
 
 const modules = [];
 Object.getOwnPropertyNames(config.modules).forEach(moduleKey => {
-	const moduleConfig = config.modules[moduleKey];
+	const moduleSection = config.modules[moduleKey];
 	const moduleUid = `module.${moduleKey}`;
 
 	const client = hub.createClient(moduleUid);
 	
-	const moduleInstance = moduleConfig.module({ client, config });
+	const moduleInstance = moduleSection.module({ client, config: moduleSection.config });
 	modules.push(moduleInstance);
 });
 
-hub.listen();
+hub.listen(config.connection.port);
