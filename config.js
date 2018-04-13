@@ -10,10 +10,12 @@ const config = {
 	}
 };
 
-config.modules['authentication'] = {
-	module: require('./lib/modules/authentication'),
+config.modules['spotify.authentication'] = {
+	module: require('./lib/modules/spotify-authentication'),
 	config: {
-		baseUrl: `${config.connection.isSecure ? 'https' : 'http'}://${config.connection.host}:${config.connection.port}`
+		baseUrl: `${config.connection.isSecure ? 'https' : 'http'}://${config.connection.host}:${config.connection.port}`,
+		clientId: process.env['SPOTIFY_CLIENT'],
+		clientSecret: process.env['SPOTIFY_SECRET']
 	}
 }
 
