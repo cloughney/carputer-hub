@@ -1,22 +1,31 @@
+const fs = require('fs');
+
+const certPath = process.env['KRIKCO_CERT'];
+const certKeyPath = process.env['KRIKCO_CERT_KEY'];
+
+if (!certPath || !certKeyPath) {
+	throw new Error('The required SSL environment variables are not configured.');
+}
+
 const config = {
 	connection: {
 		host: 'h.krik.co',
 		port: 9000,
-		isSecure: false
+		ssl: {
+			certificate: fs.readFileSync(certPath),
+			key: fs.readFileSync(certKeyPath)
+		}
 	},
-	modules: {
-		//'mopidy': { type: 'client', module: require('./lib/modules/mopidy') },
-		
-	}
+	modules: {}
 };
 
 config.modules['spotify.authentication'] = {
 	module: require('./lib/modules/spotify-authentication'),
 	config: {
-		baseUrl: `${config.connection.isSecure ? 'https' : 'http'}://${config.connection.host}:${config.connection.port}`,
+		baseUrl: `https://${config.connection.host}:${config.connection.port}`,
 		clientId: process.env['SPOTIFY_CLIENT'],
 		clientSecret: process.env['SPOTIFY_SECRET']
 	}
-}
+};
 
 module.exports = config;
